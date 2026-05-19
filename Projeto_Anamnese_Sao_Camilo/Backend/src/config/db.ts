@@ -13,7 +13,7 @@ function getRequiredEnv(name: string): string {
   return value;
 }
 
-export const db = mysql.createPool({
+export const promisePool = mysql.createPool({
   host: getRequiredEnv("DB_HOST"),
   user: getRequiredEnv("DB_USER"),
   password: getRequiredEnv("DB_PASSWORD"),
@@ -23,3 +23,5 @@ export const db = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
 });
+
+export const db = promisePool;
