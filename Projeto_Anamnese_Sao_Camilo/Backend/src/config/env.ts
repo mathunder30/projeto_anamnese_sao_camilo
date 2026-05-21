@@ -1,0 +1,13 @@
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+export function getRequiredEnv(name: string): string {
+  const value = process.env[name];
+
+  if (!value) {
+    throw new Error(`Variavel de ambiente obrigatoria ausente: ${name}`);
+  }
+
+  return value;
+}

@@ -1,17 +1,5 @@
 import mysql from "mysql2/promise";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-function getRequiredEnv(name: string): string {
-  const value = process.env[name];
-
-  if (!value) {
-    throw new Error(`Variavel de ambiente obrigatoria ausente: ${name}`);
-  }
-
-  return value;
-}
+import { getRequiredEnv } from "./env";
 
 export const promisePool = mysql.createPool({
   host: getRequiredEnv("DB_HOST"),
