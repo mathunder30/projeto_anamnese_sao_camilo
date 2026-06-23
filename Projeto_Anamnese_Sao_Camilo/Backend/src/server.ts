@@ -5,6 +5,8 @@ import pacienteRoutes from "./routes/PacienteRoutes";
 import anamneseRoutes from "./routes/AnamneseRoutes";
 import enderecoRoutes from "./routes/EnderecoRoutes";
 import avaliacaoClinicaRoutes from "./routes/AvaliacaoClinicaRoutes";
+import prontuarioRoutes from "./routes/ProntuarioRoutes";
+import atendimentoRoutes from "./routes/AtendimentoRoutes";
 
 const app = express();
 
@@ -15,6 +17,8 @@ app.use("/pacientes", pacienteRoutes);
 app.use("/anamneses", anamneseRoutes);
 app.use("/enderecos", enderecoRoutes);
 app.use("/avaliacoes-clinicas", avaliacaoClinicaRoutes);
+app.use("/prontuarios", prontuarioRoutes);
+app.use("/atendimentos", atendimentoRoutes);
 
 app.get("/", (req, res) => {
   res.send("API Prontuário Rodando 🚀");
