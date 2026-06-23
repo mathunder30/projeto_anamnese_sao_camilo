@@ -22,8 +22,11 @@ export interface IPaciente {
   atualizado_em: Date;
 }
 
-export type CreatePacienteInput = Omit<IPaciente, 'id' | 'ativo' | 'criado_em' | 'atualizado_em'> &
-  Partial<Pick<IPaciente, 'id' | 'ativo'>>;
+export type CreatePacienteInput = Omit<
+  IPaciente,
+  'id' | 'num_prontuario' | 'ativo' | 'criado_em' | 'atualizado_em'
+> &
+  Partial<Pick<IPaciente, 'id' | 'num_prontuario' | 'ativo'>>;
 
 export type UpdatePacienteInput = Partial<
   Omit<IPaciente, 'id' | 'criado_em' | 'atualizado_em'>
@@ -32,8 +35,29 @@ export type UpdatePacienteInput = Partial<
 interface PacienteRow extends IPaciente, RowDataPacket {}
 
 export default class Paciente {
+  private static criarNumeroProntuario(): string {
+    const timestamp = Date.now().toString(36).toUpperCase();
+    const sufixo = randomUUID().slice(0, 6).toUpperCase();
+
+    return `P${timestamp}${sufixo}`;
+  }
+
+  private static async gerarNumeroProntuarioUnico(): Promise<string> {
+    for (let tentativa = 0; tentativa < 5; tentativa += 1) {
+      const num_prontuario = Paciente.criarNumeroProntuario();
+      const pacienteExistente = await Paciente.buscarPorProntuario(num_prontuario);
+
+      if (!pacienteExistente) {
+        return num_prontuario;
+      }
+    }
+
+    throw new Error('Nao foi possivel gerar um numero de prontuario unico.');
+  }
+
   static async CadastroPaciente(paciente: CreatePacienteInput): Promise<IPaciente> {
     const id = paciente.id ?? randomUUID();
+    const num_prontuario = paciente.num_prontuario ?? await Paciente.gerarNumeroProntuarioUnico();
     const now = new Date();
     const ativo = paciente.ativo ?? true;
 
@@ -41,7 +65,7 @@ export default class Paciente {
       'INSERT INTO pacientes(id, num_prontuario, nome, data_nascimento, cpf, sexo, rg, email, telefone, celular, profissao, indicacao, ativo, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         id,
-        paciente.num_prontuario,
+        num_prontuario,
         paciente.nome,
         paciente.data_nascimento,
         paciente.cpf,
@@ -65,6 +89,7 @@ export default class Paciente {
     return {
       ...paciente,
       id,
+      num_prontuario,
       ativo,
       criado_em: now,
       atualizado_em: now,
@@ -94,11 +119,29 @@ export default class Paciente {
 
   static async buscarPorProntuario(num_prontuario: string): Promise<IPaciente | null> {
     const [rows] = await promisePool.execute<PacienteRow[]>(
-      'SELECT id, num_prontuario, nome, data_nascimento, cpf, sexo, rg, email, telefone, celular, profissao, indicacao, ativo, criado_em, atualizado_em FROM pacientes WHERE num_prontuario = ? LIMIT 1',
+      'SELECT id, num_prontuario, nome, data_nascimento, cpf, sexo, rg, email, telefone, celular, profissao, indicacao, ativo, criado_em, atualizado_em FROM pacientes WHERE num_prontuario = ? AND ativo = 1 LIMIT 1',
       [num_prontuario],
     );
 
     return rows[0] ?? null;
+  }
+
+  static async buscarPorCpf(cpf: string): Promise<IPaciente | null> {
+    const [rows] = await promisePool.execute<PacienteRow[]>(
+      'SELECT id, num_prontuario, nome, data_nascimento, cpf, sexo, rg, email, telefone, celular, profissao, indicacao, ativo, criado_em, atualizado_em FROM pacientes WHERE cpf = ? AND ativo = 1 LIMIT 1',
+      [cpf],
+    );
+
+    return rows[0] ?? null;
+  }
+
+  static async buscarPorNome(nome: string): Promise<IPaciente[]> {
+    const [rows] = await promisePool.execute<PacienteRow[]>(
+      'SELECT id, num_prontuario, nome, data_nascimento, cpf, sexo, rg, email, telefone, celular, profissao, indicacao, ativo, criado_em, atualizado_em FROM pacientes WHERE nome LIKE ? AND ativo = 1 ORDER BY nome',
+      [`%${nome}%`],
+    );
+
+    return rows;
   }
 
   static async atualizar(id: string, paciente: UpdatePacienteInput): Promise<IPaciente | null> {

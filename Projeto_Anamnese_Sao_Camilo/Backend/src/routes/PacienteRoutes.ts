@@ -6,14 +6,14 @@ import {
   cadastrarPaciente,
   deletarPaciente,
 } from '../controllers/PacienteControllers';
-import { VerificarToken } from '../middlewares/Auth';
+import { PermitirPerfis, VerificarToken } from '../middlewares/Auth';
 
 const router = Router();
 
-router.post('/register', VerificarToken, cadastrarPaciente);
-router.get('/', VerificarToken, buscarPacientes);
-router.get('/:id', VerificarToken, buscarPacientePorId);
-router.put('/:id', VerificarToken, atualizarPaciente);
-router.delete('/:id', VerificarToken, deletarPaciente);
+router.post('/register', VerificarToken, PermitirPerfis('recepcionista', 'administracao'), cadastrarPaciente);
+router.get('/', VerificarToken, PermitirPerfis('recepcionista', 'podologo', 'administracao'), buscarPacientes);
+router.get('/:id', VerificarToken, PermitirPerfis('recepcionista', 'podologo', 'administracao'), buscarPacientePorId);
+router.put('/:id', VerificarToken, PermitirPerfis('recepcionista', 'administracao'), atualizarPaciente);
+router.delete('/:id', VerificarToken, PermitirPerfis('administracao'), deletarPaciente);
 
 export default router;

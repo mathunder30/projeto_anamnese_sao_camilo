@@ -1,5 +1,9 @@
 import type { Request, Response } from 'express';
-import Paciente, { SexoPaciente, UpdatePacienteInput } from '../models/PacienteModels';
+import Paciente, {
+  CreatePacienteInput,
+  SexoPaciente,
+  UpdatePacienteInput,
+} from '../models/PacienteModels';
 
 const sexosValidos: SexoPaciente[] = ['masculino', 'feminino', 'outro'];
 
@@ -22,6 +26,8 @@ interface PacienteParams {
 }
 
 interface BuscarPacientesQuery {
+  nome?: string;
+  cpf?: string;
   prontuario?: string;
 }
 
@@ -40,7 +46,6 @@ export async function cadastrarPaciente(
 ) {
   try {
     const {
-      num_prontuario,
       nome,
       data_nascimento,
       cpf,
@@ -53,9 +58,9 @@ export async function cadastrarPaciente(
       indicacao,
     } = req.body;
 
-    if (!num_prontuario || !nome || !data_nascimento || !sexo || !celular) {
+    if (!nome || !data_nascimento || !sexo || !celular) {
       return res.status(400).json({
-        message: 'Numero do prontuario, nome, data de nascimento, sexo e celular sao obrigatorios.',
+        message: 'Nome, data de nascimento, sexo e celular sao obrigatorios.',
       });
     }
 
@@ -69,8 +74,7 @@ export async function cadastrarPaciente(
       return res.status(400).json({ message: 'Data de nascimento invalida.' });
     }
 
-    const paciente = await Paciente.CadastroPaciente({
-      num_prontuario,
+    const dadosPaciente: CreatePacienteInput = {
       nome,
       data_nascimento: dataNascimento,
       cpf: cpf ?? null,
@@ -81,7 +85,9 @@ export async function cadastrarPaciente(
       celular,
       profissao: profissao ?? null,
       indicacao: indicacao ?? null,
-    });
+    };
+
+    const paciente = await Paciente.CadastroPaciente(dadosPaciente);
 
     return res.status(201).json({
       message: 'Paciente cadastrado com sucesso.',
@@ -89,7 +95,7 @@ export async function cadastrarPaciente(
     });
   } catch (error) {
     if (isDuplicateEntryError(error)) {
-      return res.status(409).json({ message: 'Prontuario ou CPF ja cadastrado.' });
+      return res.status(409).json({ message: 'CPF ja cadastrado.' });
     }
 
     console.error('Erro ao cadastrar paciente:', error);
@@ -102,7 +108,7 @@ export async function buscarPacientes(
   res: Response,
 ) {
   try {
-    const { prontuario } = req.query;
+    const { nome, cpf, prontuario } = req.query;
 
     if (prontuario) {
       const paciente = await Paciente.buscarPorProntuario(prontuario);
@@ -112,6 +118,22 @@ export async function buscarPacientes(
       }
 
       return res.status(200).json({ paciente });
+    }
+
+    if (cpf) {
+      const paciente = await Paciente.buscarPorCpf(cpf);
+
+      if (!paciente) {
+        return res.status(404).json({ message: 'Paciente nao encontrado.' });
+      }
+
+      return res.status(200).json({ paciente });
+    }
+
+    if (nome) {
+      const pacientes = await Paciente.buscarPorNome(nome);
+
+      return res.status(200).json({ pacientes });
     }
 
     const pacientes = await Paciente.buscarTodos();

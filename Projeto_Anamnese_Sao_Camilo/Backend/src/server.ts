@@ -2,6 +2,9 @@ import express from "express";
 import cors from "cors";
 import userRoutes from "./routes/UserRoutes";
 import pacienteRoutes from "./routes/PacienteRoutes";
+import anamneseRoutes from "./routes/AnamneseRoutes";
+import enderecoRoutes from "./routes/EnderecoRoutes";
+import avaliacaoClinicaRoutes from "./routes/AvaliacaoClinicaRoutes";
 
 const app = express();
 
@@ -9,6 +12,9 @@ app.use(cors());
 app.use(express.json());
 app.use("/users", userRoutes);
 app.use("/pacientes", pacienteRoutes);
+app.use("/anamneses", anamneseRoutes);
+app.use("/enderecos", enderecoRoutes);
+app.use("/avaliacoes-clinicas", avaliacaoClinicaRoutes);
 
 app.get("/", (req, res) => {
   res.send("API Prontuário Rodando 🚀");

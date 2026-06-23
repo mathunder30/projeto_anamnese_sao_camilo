@@ -50,3 +50,19 @@ export const VerificarToken = (req: Request, res: Response, next: NextFunction) 
         res.status(401).json({ message: "Token invalido" });
     }
 };
+
+export const PermitirPerfis = (...perfisPermitidos: UserPerfil[]) => {
+    return (req: Request, res: Response, next: NextFunction) => {
+        if (!req.user) {
+            res.status(401).json({ message: "Acesso negado. Usuario nao autenticado" });
+            return;
+        }
+
+        if (!perfisPermitidos.includes(req.user.perfil)) {
+            res.status(403).json({ message: "Acesso negado. Perfil sem permissao" });
+            return;
+        }
+
+        next();
+    };
+};
