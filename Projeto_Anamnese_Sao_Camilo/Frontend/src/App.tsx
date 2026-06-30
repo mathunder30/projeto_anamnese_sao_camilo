@@ -519,8 +519,8 @@ export default function App() {
                   }}>
                     <div className="fn">{p.n}</div>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 500, fontSize: 13px, color: 'var(--g800)' }}>{p.nm}</div>
-                      <div style={{ fontSize: 11px, color: 'var(--g500)' }}>
+                      <div style={{ fontWeight: 500, fontSize: 13, color: 'var(--g800)' }}>{p.nm}</div>
+                      <div style={{ fontSize: 11, color: 'var(--g500)' }}>
                         {p.pr} · {p.tp}
                         {p.ug && (
                           <>
@@ -530,10 +530,10 @@ export default function App() {
                         )}
                       </div>
                     </div>
-                    <div style={{ fontSize: 11px, color: 'var(--g500)', textAlign: 'right', marginRight: '15px' }}>
+                    <div style={{ fontSize: 11, color: 'var(--g500)', textAlign: 'right', marginRight: '15px' }}>
                       {p.es}
                       <br />
-                      <span style={{ color: 'var(--g400)', fontSize: 10px }}>esperando</span>
+                      <span style={{ color: 'var(--g400)', fontSize: 10 }}>esperando</span>
                     </div>
                     <button className="btn bp bsm">Atender</button>
                   </div>
@@ -575,7 +575,7 @@ export default function App() {
                     {filteredPacientes.map((p, index) => (
                       <tr key={index}>
                         <td>
-                          <span style={{ fontFamily: 'monospace', fontSize: 12px, color: 'var(--brand)' }}>
+                          <span style={{ fontFamily: 'monospace', fontSize: 12, color: 'var(--brand)' }}>
                             {p.num_prontuario}
                           </span>
                         </td>
@@ -961,7 +961,7 @@ export default function App() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   {['Direito', 'Esquerdo'].map((pe, idx) => (
                     <div key={idx} style={{ background: 'var(--g50)', border: '1px solid var(--g200)', borderRadius: 'var(--r)', padding: '13px' }}>
-                      <div style={{ fontSize: 12px, fontWeight: 600, color: 'var(--g600)', marginBottom: '9px' }}>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--g600)', marginBottom: '9px' }}>
                         Pé {pe}
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
@@ -988,7 +988,7 @@ export default function App() {
                 <div className="sl2">Monofilamento Semmes-Weinstein (10g)</div>
                 <div className="mg">
                   <div className="mf">
-                    <div style={{ fontSize: 11px, fontWeight: 600, color: 'var(--g500)', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: '9px' }}>
+                    <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--g500)', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: '9px' }}>
                       Pé Direito
                     </div>
                     <div className="mp">
@@ -1014,7 +1014,7 @@ export default function App() {
                     </div>
                   </div>
                   <div className="mf">
-                    <div style={{ fontSize: 11px, fontWeight: 600, color: 'var(--g500)', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: '9px' }}>
+                    <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--g500)', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: '9px' }}>
                       Pé Esquerdo
                     </div>
                     <div className="mp">
@@ -1045,7 +1045,7 @@ export default function App() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   {['Direito', 'Esquerdo'].map((pe, idx) => (
                     <div key={idx} style={{ background: 'var(--g50)', border: '1px solid var(--g200)', borderRadius: 'var(--r)', padding: '13px' }}>
-                      <div style={{ fontSize: 12px, fontWeight: 600, color: 'var(--g600)', marginBottom: '9px' }}>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--g600)', marginBottom: '9px' }}>
                         Pé {pe}
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -1127,25 +1127,25 @@ export default function App() {
                   { d: '05/01/2026', dg: 'Avaliação inicial — Hiperqueratose plantar', c: 'Limpeza e hidratação. Orientações gerais.', e: 'Diabética tipo II. Pele ressecada. Sensibilidade preservada.', p: 'Dra. Fernanda Lima' },
                 ].map((e, index) => (
                   <div key={index} className="ec">
-                    <div style={{ fontSize: 11px, color: 'var(--g500)', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <div style={{ fontSize: 11, color: 'var(--g500)', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px' }}>
                       {Icons.clk}
                       {e.d} · <span style={{ color: 'var(--brand)', fontWeight: 500 }}>{e.dg}</span>
                     </div>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', margin: '6px 0' }}>
                       <div>
-                        <div style={{ fontSize: 10px, fontWeight: 600, color: 'var(--g500)', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: '3px' }}>
+                        <div style={{ fontSize: 10, fontWeight: 600, color: 'var(--g500)', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: '3px' }}>
                           Conduta
                         </div>
-                        <div style={{ fontSize: 12px, color: 'var(--g700)' }}>{e.c}</div>
+                        <div style={{ fontSize: 12, color: 'var(--g700)' }}>{e.c}</div>
                       </div>
                       <div>
-                        <div style={{ fontSize: 10px, fontWeight: 600, color: 'var(--g500)', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: '3px' }}>
+                        <div style={{ fontSize: 10, fontWeight: 600, color: 'var(--g500)', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: '3px' }}>
                           Evolução
                         </div>
-                        <div style={{ fontSize: 12px, color: 'var(--g700)' }}>{e.e}</div>
+                        <div style={{ fontSize: 12, color: 'var(--g700)' }}>{e.e}</div>
                       </div>
                     </div>
-                    <div style={{ fontSize: 11px, color: 'var(--brand)', fontWeight: 500, marginTop: '4px' }}>
+                    <div style={{ fontSize: 11, color: 'var(--brand)', fontWeight: 500, marginTop: '4px' }}>
                       {e.p}
                     </div>
                   </div>
@@ -1200,7 +1200,7 @@ export default function App() {
                 ></textarea>
               </div>
               <div style={{ background: 'var(--g50)', borderRadius: '8px', padding: '13px', marginBottom: '18px' }}>
-                <div style={{ fontSize: 12px, fontWeight: 600, color: 'var(--g600)', marginBottom: '9px' }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--g600)', marginBottom: '9px' }}>
                   Histórico recente
                 </div>
                 {[
@@ -1208,10 +1208,10 @@ export default function App() {
                   { d: '20/03/2026', t: 'Onicocriptose grau II hálux D. Curativo oclusivo aplicado.' },
                 ].map((e, idx) => (
                   <div key={idx} className="ec">
-                    <div style={{ fontSize: 11px, color: 'var(--g500)', marginBottom: '5px', display: 'flex', alignHover: 'center', gap: '5px' }}>
+                    <div style={{ fontSize: 11, color: 'var(--g500)', marginBottom: '5px', display: 'flex', alignItems: 'center', gap: '5px' }}>
                       {Icons.clk} {e.d}
                     </div>
-                    <div style={{ fontSize: 13px, color: 'var(--g700)' }}>{e.t}</div>
+                    <div style={{ fontSize: 13, color: 'var(--g700)' }}>{e.t}</div>
                   </div>
                 ))}
               </div>
@@ -1346,7 +1346,7 @@ export default function App() {
                     ].map((r, idx) => (
                       <tr key={idx}>
                         <td>
-                          <span style={{ fontFamily: 'monospace', fontSize: 12px, color: 'var(--brand)' }}>
+                          <span style={{ fontFamily: 'monospace', fontSize: 12, color: 'var(--brand)' }}>
                             {r.p}
                           </span>
                         </td>
@@ -1380,10 +1380,10 @@ export default function App() {
                   style={{ cursor: 'pointer', borderTop: `3px solid ${r.c}` }}
                   onClick={() => showToast('Relatório gerado!')}
                 >
-                  <div style={{ fontWeight: 600, fontSize: 13px, color: 'var(--g800)', marginBottom: '3px' }}>
+                  <div style={{ fontWeight: 600, fontSize: 13, color: 'var(--g800)', marginBottom: '3px' }}>
                     {r.t}
                   </div>
-                  <div style={{ fontSize: 12px, color: 'var(--g500)' }}>{r.d}</div>
+                  <div style={{ fontSize: 12, color: 'var(--g500)' }}>{r.d}</div>
                 </div>
               ))}
             </div>
