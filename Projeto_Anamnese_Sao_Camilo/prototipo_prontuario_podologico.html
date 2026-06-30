@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prontuário Podológico — Clínica São Camilo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#0E6BA8;--brand-dark:#0A4F7A;--brand-light:#E8F4FD;--brand-mid:#3B8FCA;
+  --teal:#0D9373;--teal-light:#E6F7F3;--coral:#D85A30;--coral-light:#FDF0EB;
+  --amber:#B8760A;--amber-light:#FDF6E3;
+  --g50:#F8F9FA;--g100:#F1F3F5;--g200:#E9ECEF;--g300:#DEE2E6;
+  --g400:#CED4DA;--g500:#ADB5BD;--g600:#6C757D;--g700:#495057;--g800:#343A40;--g900:#212529;
+  --r:10px;--sh:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.06);--f:'DM Sans',sans-serif;
+}
+body{font-family:var(--f);background:var(--g100);color:var(--g900);font-size:14px;line-height:1.5;min-height:100vh}
+.app{display:flex;min-height:100vh}
+.sb{width:220px;background:var(--brand-dark);display:flex;flex-direction:column;flex-shrink:0}
+.sb-logo{padding:22px 18px 14px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px}
+.sb-icon{width:32px;height:32px;background:var(--brand-mid);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-icon svg{width:16px;height:16px;fill:white}
+.sb-txt{color:white;font-weight:600;font-size:13px;line-height:1.2}
+.sb-txt span{display:block;font-weight:300;font-size:11px;opacity:.6}
+.sb-nav{flex:1;padding:10px 0;overflow-y:auto}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;transition:.15s;color:rgba(255,255,255,.72);font-size:13px;border-left:3px solid transparent;margin:1px 0}
+.ni:hover{background:rgba(255,255,255,.08);color:white}
+.ni.active{background:rgba(255,255,255,.12);color:white;border-left-color:var(--brand-mid);font-weight:500}
+.ni svg{width:15px;height:15px;flex-shrink:0;opacity:.8}
+.nb{margin-left:auto;background:var(--coral);color:white;font-size:10px;font-weight:600;padding:2px 6px;border-radius:10px}
+.sb-foot{padding:12px 14px;border-top:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px}
+.av{width:30px;height:30px;border-radius:50%;background:var(--brand-mid);display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:600;flex-shrink:0}
+.un{color:white;font-size:12px;font-weight:500;line-height:1.2}
+.ur{color:rgba(255,255,255,.5);font-size:11px}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.tb{background:white;border-bottom:1px solid var(--g200);padding:0 22px;height:54px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.tb-t{font-size:15px;font-weight:600;color:var(--g800)}
+.ct{flex:1;overflow-y:auto;padding:22px}
+.card{background:white;border-radius:var(--r);box-shadow:var(--sh);padding:18px;margin-bottom:14px}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ct2{font-size:14px;font-weight:600;color:var(--g800)}
+.cs{font-size:12px;color:var(--g500);margin-top:2px}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.sc{background:white;border-radius:var(--r);padding:16px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;border-radius:4px 0 0 4px}
+.sc.bl::before{background:var(--brand)}.sc.tl::before{background:var(--teal)}.sc.co::before{background:var(--coral)}.sc.am::before{background:var(--amber)}
+.sv{font-size:24px;font-weight:600;color:var(--g800);line-height:1}
+.sl{font-size:12px;color:var(--g500);margin-top:3px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:9px 12px;font-size:11px;font-weight:600;color:var(--g500);text-transform:uppercase;letter-spacing:.06em;background:var(--g50);border-bottom:1px solid var(--g200)}
+td{padding:10px 12px;border-bottom:1px solid var(--g100);color:var(--g700);vertical-align:middle}
+tr:last-child td{border-bottom:none}tr:hover td{background:var(--g50)}
+.bdg{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
+.b-bl{background:var(--brand-light);color:var(--brand-dark)}.b-tl{background:var(--teal-light);color:var(--teal)}
+.b-co{background:var(--coral-light);color:var(--coral)}.b-gy{background:var(--g100);color:var(--g600)}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:.15s;font-family:var(--f)}
+.bp{background:var(--brand);color:white}.bp:hover{background:var(--brand-dark)}
+.bs{background:var(--g100);color:var(--g700);border:1px solid var(--g200)}.bs:hover{background:var(--g200)}
+.bt{background:var(--teal);color:white}.bt:hover{background:#0a7a5e}
+.bsm{padding:5px 11px;font-size:12px}
+.bic{width:30px;height:30px;padding:0;justify-content:center;border-radius:6px}
+.btn svg{width:13px;height:13px;flex-shrink:0}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.fgr{display:flex;flex-direction:column;gap:4px}
+.full{grid-column:1/-1}
+label.lbl{font-size:12px;font-weight:500;color:var(--g600)}
+input,select,textarea{padding:8px 11px;border:1px solid var(--g300);border-radius:7px;font-size:13px;font-family:var(--f);color:var(--g800);background:white;outline:none;transition:.15s;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(14,107,168,.1)}
+textarea{resize:vertical;min-height:80px}
+.ckg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.cki{display:flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid var(--g200);border-radius:7px;cursor:pointer;transition:.15s;font-size:12px;color:var(--g700)}
+.cki:hover{border-color:var(--brand);background:var(--brand-light)}
+.cki input{width:13px;height:13px;cursor:pointer;accent-color:var(--brand);flex-shrink:0}
+.cki.ck{border-color:var(--brand);background:var(--brand-light);color:var(--brand-dark);font-weight:500}
+.tabs{display:flex;gap:2px;background:var(--g100);padding:3px;border-radius:9px;margin-bottom:18px}
+.tab{flex:1;padding:7px 10px;text-align:center;font-size:12px;font-weight:500;cursor:pointer;border-radius:7px;color:var(--g600);transition:.15s}
+.tab.active{background:white;color:var(--brand);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.fi{display:flex;align-items:center;gap:12px;padding:11px 14px;background:white;border-radius:var(--r);box-shadow:var(--sh);margin-bottom:7px;cursor:pointer;transition:.15s;border-left:3px solid transparent}
+.fi:hover{border-left-color:var(--brand)}.fi.urg{border-left-color:var(--coral)}
+.fn{width:26px;height:26px;background:var(--g100);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--g600);flex-shrink:0}
+.ph{background:linear-gradient(135deg,var(--brand-dark),var(--brand));padding:18px;border-radius:var(--r);color:white;margin-bottom:14px}
+.pn{font-size:11px;opacity:.65;margin-bottom:3px}
+.pm{font-size:19px;font-weight:600;margin-bottom:7px}
+.pp{display:flex;gap:14px;font-size:12px;opacity:.82;flex-wrap:wrap}
+.sl2{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;color:var(--g500);text-transform:uppercase;letter-spacing:.07em;margin:18px 0 10px}
+.sl2::after{content:'';flex:1;height:1px;background:var(--g200)}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mf{background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:12px}
+.mp{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.mpt{width:100%;aspect-ratio:1;border-radius:6px;border:1.5px solid var(--g300);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--g400);transition:.15s}
+.mpt:hover{border-color:var(--brand);color:var(--brand)}.mpt.pos{background:var(--teal-light);border-color:var(--teal);color:var(--teal)}.mpt.neg{background:var(--coral-light);border-color:var(--coral);color:var(--coral)}
+.ec{background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:13px;margin-bottom:9px;position:relative}
+.ec::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;background:var(--teal)}
+.al{display:flex;align-items:flex-start;gap:9px;padding:11px 13px;border-radius:7px;font-size:12px;margin-bottom:14px;background:var(--brand-light);color:var(--brand-dark);border:1px solid rgba(14,107,168,.18)}
+.sr{display:flex;gap:9px;margin-bottom:14px}
+.si{flex:1;display:flex;align-items:center;gap:7px;background:white;border:1px solid var(--g200);border-radius:7px;padding:7px 11px}
+.si svg{width:13px;height:13px;stroke:var(--g400);flex-shrink:0}
+.si input{border:none;outline:none;font-size:13px;color:var(--g700);width:100%;font-family:var(--f)}
+.mt{display:none;width:34px;height:34px;background:var(--g100);border:none;border-radius:7px;cursor:pointer;align-items:center;justify-content:center}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
+.ls{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,var(--brand-dark),var(--brand))}
+.lc{background:white;border-radius:18px;padding:36px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.li{width:40px;height:40px;background:var(--brand);border-radius:11px;display:flex;align-items:center;justify-content:center}
+.li svg{width:22px;height:22px;fill:white}
+.lb{width:100%;padding:11px;background:var(--brand);color:white;border:none;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--f);transition:.15s;margin-top:6px}
+.lb:hover{background:var(--brand-dark)}
+.rb{flex:1;padding:7px;background:var(--g50);border:1px solid var(--g200);border-radius:7px;font-size:11px;font-weight:500;color:var(--g600);cursor:pointer;text-align:center;transition:.15s;font-family:var(--f)}
+.rb:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-light)}
+@media(max-width:768px){
+  .sb{position:fixed;left:-220px;top:0;bottom:0;z-index:100;transition:left .3s}.sb.open{left:0}
+  .mt{display:flex}.ov.show{display:block}
+  .sg{grid-template-columns:1fr 1fr}.fg{grid-template-columns:1fr}.fg3{grid-template-columns:1fr 1fr}
+  .ckg{grid-template-columns:1fr 1fr}.mg{grid-template-columns:1fr}
+  .ct{padding:14px}.tb{padding:0 14px}
+}
+@media(max-width:480px){.sg{grid-template-columns:1fr}.fg3{grid-template-columns:1fr}.lc{margin:14px;padding:26px}}
+</style>
+</head>
+<body>
+<div class="ov" id="ov" onclick="cSb()"></div>
+<div id="LS" class="ls">
+  <div class="lc">
+    <div style="display:flex;align-items:center;gap:11px;margin-bottom:26px;justify-content:center">
+      <div class="li"><svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/></svg></div>
+      <div><div style="font-size:16px;font-weight:600;color:var(--g800)">Clínica São Camilo</div><div style="font-size:12px;color:var(--g500)">Sistema de Prontuário Digital</div></div>
+    </div>
+    <div style="font-size:21px;font-weight:600;color:var(--g800);text-align:center;margin-bottom:3px">Bem-vindo(a)</div>
+    <div style="font-size:13px;color:var(--g500);text-align:center;margin-bottom:22px">Informe suas credenciais para acessar</div>
+    <div style="margin-bottom:12px"><label class="lbl" style="display:block;margin-bottom:4px">E-mail</label><input type="email" value="recep@saocamilo.com.br"></div>
+    <div style="margin-bottom:4px"><label class="lbl" style="display:block;margin-bottom:4px">Senha</label><input type="password" value="••••••••"></div>
+    <button class="lb" onclick="lg('recepcionista')">Entrar</button>
+    <div style="margin-top:14px;text-align:center;font-size:11px;color:var(--g500)">Entrar como:</div>
+    <div style="display:flex;gap:7px;margin-top:8px">
+      <button class="rb" onclick="lg('recepcionista')">Recepcionista</button>
+      <button class="rb" onclick="lg('podologa')">Podóloga</button>
+      <button class="rb" onclick="lg('admin')">Administrador</button>
+    </div>
+  </div>
+</div>
+<div id="APP" class="app" style="display:none">
+  <nav class="sb" id="SB">
+    <div class="sb-logo">
+      <div class="sb-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/></svg></div>
+      <div class="sb-txt">São Camilo<span>Prontuário Digital</span></div>
+    </div>
+    <div class="sb-nav" id="SBN"></div>
+    <div class="sb-foot"><div class="av" id="AV">RC</div><div><div class="un" id="UN">Usuário</div><div class="ur" id="UR">Perfil</div></div></div>
+  </nav>
+  <div class="main">
+    <div class="tb">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="mt" onclick="tSb()"><svg viewBox="0 0 24 24" fill="none" stroke="var(--g700)" stroke-width="2" stroke-linecap="round" width="17" height="17"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+        <div class="tb-t" id="TBT">Início</div>
+      </div>
+      <button class="btn bs bsm" onclick="lo()">Sair</button>
+    </div>
+    <div class="ct" id="MC"></div>
+  </div>
+</div>
+<script>
+const I={
+  clk:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="15" height="15"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  usr:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="15" height="15"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>`,
+  upl:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="15" height="15"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="17" y1="11" x2="23" y2="11"/></svg>`,
+  clp:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="15" height="15"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>`,
+  act:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="15" height="15"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+  bar:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="15" height="15"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+  ftx:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="15" height="15"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+  shd:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="15" height="15"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+  pls:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+  eye:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
+  edt:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
+  inf:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+  ok:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>`,
+  sch:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+};
+const MN={
+  recepcionista:[{id:'fila',ic:'clk',l:'Fila de espera',b:3},{id:'pac',ic:'usr',l:'Pacientes'},{id:'novo',ic:'upl',l:'Novo paciente'}],
+  podologa:[{id:'fila',ic:'clk',l:'Fila de espera',b:2},{id:'pac',ic:'usr',l:'Pacientes'},{id:'amn',ic:'clp',l:'Anamnese'},{id:'atd',ic:'act',l:'Registrar atendimento'}],
+  admin:[{id:'dash',ic:'bar',l:'Dashboard'},{id:'pac',ic:'usr',l:'Pacientes'},{id:'fila',ic:'clk',l:'Fila de espera'},{id:'rel',ic:'ftx',l:'Relatórios'},{id:'usr',ic:'shd',l:'Usuários'}]
+};
+const TT={fila:'Fila de espera',pac:'Pacientes',novo:'Novo paciente',amn:'Anamnese podológica',atd:'Registrar atendimento',dash:'Dashboard',rel:'Relatórios',usr:'Gestão de usuários'};
+let role='recepcionista';
+function lg(r){role=r;document.getElementById('LS').style.display='none';document.getElementById('APP').style.display='flex';bNav(r);nav({recepcionista:'fila',podologa:'fila',admin:'dash'}[r]);}
+function lo(){document.getElementById('APP').style.display='none';document.getElementById('LS').style.display='flex';}
+function bNav(r){
+  const inf={recepcionista:{n:'Ana Paula',r:'Recepcionista',a:'AP'},podologa:{n:'Dra. Carla',r:'Podóloga',a:'DC'},admin:{n:'Administrador',r:'Admin',a:'AD'}}[r];
+  document.getElementById('AV').textContent=inf.a;document.getElementById('UN').textContent=inf.n;document.getElementById('UR').textContent=inf.r;
+  document.getElementById('SBN').innerHTML=MN[r].map(m=>`<div class="ni" id="ni_${m.id}" onclick="nav('${m.id}')">${I[m.ic]}${m.l}${m.b?`<span class="nb">${m.b}</span>`:''}</div>`).join('');
+}
+function nav(id){
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  const ni=document.getElementById('ni_'+id);if(ni)ni.classList.add('active');
+  document.getElementById('TBT').textContent=TT[id]||id;
+  const fn=SC[id];document.getElementById('MC').innerHTML=fn?fn():'<p style="color:var(--g500)">Em construção</p>';
+  cSb();
+  if(id==='amn')sTab(0);
+  if(id==='dash')iCh();
+}
+function tSb(){document.getElementById('SB').classList.toggle('open');document.getElementById('ov').classList.toggle('show');}
+function cSb(){document.getElementById('SB').classList.remove('open');document.getElementById('ov').classList.remove('show');}
+function sTab(i){
+  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  const el=document.getElementById('TC');if(el)el.innerHTML=TB[i];
+  document.querySelectorAll('.cki').forEach(el=>{const cb=el.querySelector('input');if(cb)cb.addEventListener('change',function(){el.classList.toggle('ck',this.checked);});});
+  document.querySelectorAll('.mpt').forEach(pt=>{pt.onclick=function(){if(this.classList.contains('pos')){this.classList.remove('pos');this.classList.add('neg');}else if(this.classList.contains('neg')){this.classList.remove('neg');}else{this.classList.add('pos');}};});
+}
+function iCh(){
+  const vs=[32,28,35,41,38,44,47],ms=['Out','Nov','Dez','Jan','Fev','Mar','Abr'],mx=47;
+  const b=document.getElementById('CB'),l=document.getElementById('CL');if(!b)return;
+  b.innerHTML=vs.map((v,i)=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:100%;height:${Math.round((v/mx)*78)}px;background:${i===6?'var(--brand)':'var(--brand-light)'};border-radius:4px 4px 0 0;position:relative"><span style="position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:600;color:var(--g600)">${v}</span></div></div>`).join('');
+  l.innerHTML=ms.map(m=>`<div style="flex:1;text-align:center;font-size:10px;color:var(--g400)">${m}</div>`).join('');
+}
+function toast(msg='Salvo!'){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:22px;right:22px;background:var(--teal);color:white;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:500;z-index:9999;display:flex;align-items:center;gap:7px;box-shadow:0 4px 20px rgba(0,0,0,.2)';
+  t.innerHTML=I.ok.replace('stroke="currentColor"','stroke="white"')+msg;
+  document.body.appendChild(t);setTimeout(()=>t.remove(),2800);
+}
+const SC={
+fila:()=>`
+<div class="al">${I.inf}<span>Há <strong>3 pacientes</strong> aguardando. Tempo médio: 18 min.</span></div>
+<div class="card">
+  <div class="ch"><div><div class="ct2">Pacientes aguardando</div><div class="cs">Atualizado às 14:32</div></div><button class="btn bp bsm" onclick="nav('novo')">${I.pls} Novo paciente</button></div>
+  ${[{n:1,nm:'Maria Aparecida Silva',tp:'Retorno',es:'32 min',pr:'PRO-000142',ug:false},{n:2,nm:'João Carlos Ferreira',tp:'Primeira consulta',es:'18 min',pr:'PRO-000201',ug:false},{n:3,nm:'Rosana Matos',tp:'Urgência',es:'5 min',pr:'PRO-000088',ug:true}].map(p=>`
+  <div class="fi${p.ug?' urg':''}" onclick="nav('amn')">
+    <div class="fn">${p.n}</div>
+    <div style="flex:1"><div style="font-weight:500;font-size:13px;color:var(--g800)">${p.nm}</div><div style="font-size:11px;color:var(--g500)">${p.pr} · ${p.tp}${p.ug?' · <span style="color:var(--coral);font-weight:600">Urgência</span>':''}</div></div>
+    <div style="font-size:11px;color:var(--g500);text-align:right">${p.es}<br><span style="color:var(--g400);font-size:10px">esperando</span></div>
+    <button class="btn bp bsm">Atender</button>
+  </div>`).join('')}
+</div>`,
+pac:()=>`
+<div class="sr"><div class="si">${I.sch}<input placeholder="Buscar por nome, CPF ou nº do prontuário..."></div><button class="btn bp" onclick="nav('novo')">${I.pls} Novo paciente</button></div>
+<div class="card"><div style="overflow-x:auto"><table>
+  <thead><tr><th>Prontuário</th><th>Nome</th><th>CPF</th><th>Celular</th><th>Último atend.</th><th>Status</th><th></th></tr></thead>
+  <tbody>${[{p:'PRO-000142',n:'Maria Aparecida Silva',c:'032.***.***-82',t:'(31) 99821-4455',u:'12/04/2026',s:'ativo'},{p:'PRO-000201',n:'João Carlos Ferreira',c:'155.***.***-10',t:'(31) 98744-2211',u:'28/03/2026',s:'ativo'},{p:'PRO-000088',n:'Rosana Matos',c:'278.***.***-66',t:'(31) 99012-3344',u:'05/04/2026',s:'ativo'},{p:'PRO-000067',n:'Antônio Ribeiro',c:'044.***.***-33',t:'(31) 3422-9900',u:'10/01/2026',s:'inativo'}].map(r=>`<tr><td><span style="font-family:monospace;font-size:12px;color:var(--brand)">${r.p}</span></td><td style="font-weight:500">${r.n}</td><td style="color:var(--g500)">${r.c}</td><td>${r.t}</td><td style="color:var(--g500)">${r.u}</td><td><span class="bdg ${r.s==='ativo'?'b-tl':'b-gy'}">${r.s}</span></td><td><div style="display:flex;gap:3px"><button class="btn bs bic bsm" onclick="nav('amn')">${I.eye}</button><button class="btn bs bic bsm">${I.edt}</button></div></td></tr>`).join('')}
+  </tbody>
+</table></div></div>`,
+novo:()=>`
+<div class="card">
+  <div class="ch"><div><div class="ct2">Cadastro de paciente</div><div class="cs">Preencha os dados do novo paciente</div></div></div>
+  <div class="sl2">Dados pessoais</div>
+  <div class="fg"><div class="fgr full"><label class="lbl">Nome completo *</label><input placeholder="Nome completo do paciente"></div><div class="fgr"><label class="lbl">Data de nascimento *</label><input type="date"></div><div class="fgr"><label class="lbl">CPF *</label><input placeholder="000.000.000-00"></div><div class="fgr"><label class="lbl">RG</label><input placeholder="MG-00.000.000"></div><div class="fgr"><label class="lbl">Profissão</label><input placeholder="Ex: Professora, Comerciante..."></div><div class="fgr"><label class="lbl">Indicação</label><input placeholder="Como chegou à clínica?"></div></div>
+  <div class="sl2">Contato</div>
+  <div class="fg"><div class="fgr"><label class="lbl">Celular *</label><input placeholder="(00) 00000-0000"></div><div class="fgr"><label class="lbl">Telefone</label><input placeholder="(00) 0000-0000"></div><div class="fgr full"><label class="lbl">E-mail</label><input type="email" placeholder="email@exemplo.com"></div></div>
+  <div class="sl2">Endereço</div>
+  <div class="fg"><div class="fgr"><label class="lbl">CEP</label><input placeholder="00000-000"></div><div class="fgr"><label class="lbl">Estado</label><select><option>MG</option><option>SP</option><option>RJ</option></select></div><div class="fgr full"><label class="lbl">Logradouro</label><input placeholder="Rua, Avenida..."></div><div class="fgr"><label class="lbl">Número</label><input placeholder="Nº"></div><div class="fgr"><label class="lbl">Complemento</label><input placeholder="Apto, Bloco..."></div><div class="fgr"><label class="lbl">Bairro</label><input placeholder="Bairro"></div><div class="fgr"><label class="lbl">Cidade</label><input placeholder="Cidade"></div></div>
+  <div style="display:flex;justify-content:flex-end;gap:9px;margin-top:18px;padding-top:14px;border-top:1px solid var(--g200)"><button class="btn bs" onclick="nav('pac')">Cancelar</button><button class="btn bp" onclick="toast('Paciente cadastrado!')">${I.ok} Salvar paciente</button></div>
+</div>`,
+amn:()=>`
+<div class="ph"><div class="pn">PRONTUÁRIO · PRO-000142</div><div class="pm">Maria Aparecida Silva</div><div class="pp"><span>62 anos</span><span>·</span><span>Diabética tipo II</span><span>·</span><span>Última consulta: 12/04/2026</span></div></div>
+<div class="tabs" id="PT"><div class="tab active" onclick="sTab(0)">Anamnese</div><div class="tab" onclick="sTab(1)">Avaliações</div><div class="tab" onclick="sTab(2)">Atendimentos</div></div>
+<div id="TC"></div>`,
+atd:()=>`
+<div class="ph"><div class="pn">PRO-000142 · NOVO ATENDIMENTO · 18/04/2026</div><div class="pm">Maria Aparecida Silva</div><div class="pp"><span>Dra. Carla Mendes</span><span>·</span><span>14:35</span></div></div>
+<div class="card">
+  <div class="ch"><div class="ct2">Registro do atendimento</div></div>
+  <div class="fgr" style="margin-bottom:12px"><label class="lbl">Diagnóstico podológico *</label><textarea placeholder="Descreva o diagnóstico observado neste atendimento..." style="min-height:88px"></textarea></div>
+  <div class="fgr" style="margin-bottom:12px"><label class="lbl">Conduta realizada *</label><textarea placeholder="Descreva os procedimentos realizados..." style="min-height:88px"></textarea></div>
+  <div class="fgr" style="margin-bottom:18px"><label class="lbl">Evolução clínica</label><textarea placeholder="Registre a evolução do quadro clínico..." style="min-height:75px"></textarea></div>
+  <div style="background:var(--g50);border-radius:8px;padding:13px;margin-bottom:18px">
+    <div style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:9px">Histórico recente</div>
+    ${[{d:'12/04/2026',t:'Melhora da onicocriptose bilateral. Desbridamento e curativo.'},{d:'20/03/2026',t:'Onicocriptose grau II hálux D. Curativo oclusivo aplicado.'}].map(e=>`<div class="ec"><div style="font-size:11px;color:var(--g500);margin-bottom:5px;display:flex;align-items:center;gap:5px">${I.clk}${e.d}</div><div style="font-size:13px;color:var(--g700)">${e.t}</div></div>`).join('')}
+  </div>
+  <div style="display:flex;justify-content:flex-end;gap:9px;padding-top:14px;border-top:1px solid var(--g200)"><button class="btn bs">Cancelar</button><button class="btn bt" onclick="toast('Atendimento registrado!')">${I.ok} Finalizar atendimento</button></div>
+</div>`,
+dash:()=>`
+<div class="sg"><div class="sc bl"><div class="sv">284</div><div class="sl">Pacientes ativos</div></div><div class="sc tl"><div class="sv">47</div><div class="sl">Atendimentos este mês</div></div><div class="sc co"><div class="sv">3</div><div class="sl">Na fila agora</div></div><div class="sc am"><div class="sv">18</div><div class="sl">Novos este mês</div></div></div>
+<div style="display:grid;grid-template-columns:1.5fr 1fr;gap:14px">
+  <div class="card"><div class="ch"><div class="ct2">Atendimentos por mês</div></div><div style="display:flex;align-items:flex-end;gap:5px;height:95px;padding:8px 0" id="CB"></div><div style="display:flex;gap:5px;margin-top:3px" id="CL"></div></div>
+  <div class="card"><div class="ch"><div class="ct2">Por podóloga</div></div>
+    ${[{n:'Dra. Carla Mendes',v:28,p:60},{n:'Dra. Fernanda Lima',v:19,p:40}].map(p=>`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:500">${p.n}</span><span style="color:var(--g500)">${p.v}</span></div><div style="background:var(--g100);border-radius:4px;height:6px"><div style="width:${p.p}%;height:100%;background:var(--brand);border-radius:4px"></div></div></div>`).join('')}
+    <div style="font-size:12px;font-weight:600;color:var(--g800);margin:14px 0 8px">Condições frequentes</div>
+    ${[{c:'Onicocriptose',n:18,cl:'var(--brand)'},{c:'Onicomicose',n:12,cl:'var(--teal)'},{c:'Hiperqueratose',n:9,cl:'var(--coral)'},{c:'Calosidades',n:8,cl:'var(--amber)'}].map(r=>`<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px;font-size:12px"><div style="width:8px;height:8px;border-radius:2px;background:${r.cl};flex-shrink:0"></div><span style="flex:1;color:var(--g700)">${r.c}</span><span style="font-weight:600">${r.n}</span></div>`).join('')}
+  </div>
+</div>
+<div class="card"><div class="ch"><div class="ct2">Últimos atendimentos</div></div><div style="overflow-x:auto"><table><thead><tr><th>Prontuário</th><th>Paciente</th><th>Podóloga</th><th>Data</th><th>Diagnóstico</th></tr></thead><tbody>${[{p:'PRO-000142',n:'Maria Aparecida Silva',pod:'Dra. Carla',d:'18/04/2026',dg:'Onicocriptose'},{p:'PRO-000201',n:'João Carlos Ferreira',pod:'Dra. Fernanda',d:'17/04/2026',dg:'Hiperqueratose'},{p:'PRO-000088',n:'Rosana Matos',pod:'Dra. Carla',d:'16/04/2026',dg:'Onicomicose'}].map(r=>`<tr><td><span style="font-family:monospace;font-size:12px;color:var(--brand)">${r.p}</span></td><td style="font-weight:500">${r.n}</td><td style="color:var(--g500)">${r.pod}</td><td style="color:var(--g500)">${r.d}</td><td><span class="bdg b-bl">${r.dg}</span></td></tr>`).join('')}</tbody></table></div></div>`,
+rel:()=>`
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px">${[{t:'Atendimentos por período',d:'Filtre por data e exporte',c:'var(--brand)'},{t:'Relatório por podóloga',d:'Desempenho individual',c:'var(--teal)'},{t:'Pacientes ativos/inativos',d:'Situação cadastral',c:'var(--coral)'}].map(r=>`<div class="card" style="cursor:pointer;border-top:3px solid ${r.c}" onclick="toast('Relatório gerado!')"><div style="font-weight:600;font-size:13px;color:var(--g800);margin-bottom:3px">${r.t}</div><div style="font-size:12px;color:var(--g500)">${r.d}</div></div>`).join('')}</div>
+<div class="card"><div class="ch"><div class="ct2">Gerar relatório personalizado</div></div>
+  <div class="fg"><div class="fgr"><label class="lbl">Período inicial</label><input type="date"></div><div class="fgr"><label class="lbl">Período final</label><input type="date"></div><div class="fgr"><label class="lbl">Podóloga</label><select><option>Todas</option><option>Dra. Carla Mendes</option><option>Dra. Fernanda Lima</option></select></div><div class="fgr"><label class="lbl">Tipo</label><select><option>Atendimentos</option><option>Pacientes</option><option>Condições clínicas</option></select></div></div>
+  <div style="display:flex;justify-content:flex-end;margin-top:14px"><button class="btn bp" onclick="toast('PDF exportado!')">${I.ftx} Exportar PDF</button></div>
+</div>`,
+usr:()=>`
+<div class="card"><div class="ch"><div class="ct2">Usuários do sistema</div><button class="btn bp bsm" onclick="toast('Usuário criado!')">${I.pls} Novo usuário</button></div>
+<div style="overflow-x:auto"><table><thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Status</th><th></th></tr></thead><tbody>
+${[{n:'Ana Paula Costa',e:'ana@saocamilo.com.br',p:'recepcionista'},{n:'Dra. Carla Mendes',e:'carla@saocamilo.com.br',p:'podologa'},{n:'Dra. Fernanda Lima',e:'fernanda@saocamilo.com.br',p:'podologa'},{n:'Administrador',e:'admin@saocamilo.com.br',p:'administrador'}].map(u=>`<tr><td style="font-weight:500">${u.n}</td><td style="color:var(--g500)">${u.e}</td><td><span class="bdg ${u.p==='administrador'?'b-co':u.p==='podologa'?'b-tl':'b-bl'}">${u.p}</span></td><td><span class="bdg b-tl">ativo</span></td><td><button class="btn bs bic bsm">${I.edt}</button></td></tr>`).join('')}
+</tbody></table></div></div>`,
+};
+const TB=[
+`<div class="card"><div class="ch"><div class="ct2">História clínica</div></div>
+<div class="fg3"><div class="fgr"><label class="lbl">Tipo de diabetes</label><select><option>Não diabético</option><option selected>Tipo II</option><option>Tipo I</option></select></div><div class="fgr"><label class="lbl">Tempo de diagnóstico</label><input value="10 anos"></div><div class="fgr"><label class="lbl">Hemoglobina glicada (%)</label><input type="number" value="7.8"></div></div>
+<div class="sl2">Comorbidades</div>
+<div class="ckg">${['Retinopatia','Neuropatia','Nefropatia','Hipertensão','Cardiopatia','Cirurgia MMII','Amputação prévia','Anestesia','Hiperalgesia','Alodinia','Queimação','Câimbras'].map((c,i)=>`<label class="cki${[1,3].includes(i)?' ck':''}"><input type="checkbox"${[1,3].includes(i)?' checked':''}> ${c}</label>`).join('')}</div>
+<div class="sl2">Hábitos de vida</div>
+<div class="fg"><div class="fgr"><label class="lbl">Calçado mais usado</label><select><option selected>Fechado</option><option>Aberto</option><option>Tênis</option></select></div><div class="fgr"><label class="lbl">Frequência de esporte</label><select><option selected>Não pratica</option><option>Semanal</option><option>Diário</option></select></div><div class="fgr full"><label class="lbl">Medicações em uso</label><input value="Metformina 850mg, Losartana 50mg"></div><div class="fgr full"><label class="lbl">Outros hábitos</label><div style="display:flex;gap:7px;margin-top:4px"><label class="cki" style="flex:1"><input type="checkbox"> Tabagista</label><label class="cki" style="flex:1"><input type="checkbox"> Etilista</label><label class="cki ck" style="flex:1"><input type="checkbox" checked> Usa palmilha</label></div></div></div>
+<div style="display:flex;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid var(--g200)"><button class="btn bp" onclick="sTab(1)">Próximo: Avaliações →</button></div>
+</div>`,
+`<div class="card"><div class="ch"><div class="ct2">Exame dermatológico</div></div>
+<div class="ckg">${['Micose interdigital','Ressecamento','Maceração','Disidrose','Hiperpigmentação','Bromidrose','Hiperhidrose','Hiperqueratose','Fissuras','Calosidades','Verruga plantar','Úlceração'].map((c,i)=>`<label class="cki${[1,7,9].includes(i)?' ck':''}"><input type="checkbox"${[1,7,9].includes(i)?' checked':''}> ${c}</label>`).join('')}</div>
+<div class="sl2">Aparelho ungueal</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${['Direito','Esquerdo'].map(pe=>`<div style="background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:13px"><div style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:9px">Pé ${pe}</div><div style="display:flex;flex-direction:column;gap:5px">${['Onicogrifose','Onicocriptose','Onicomicose'].map((u,i)=>`<label class="cki${i===1?' ck':''}"><input type="checkbox"${i===1?' checked':''}> ${u}</label>`).join('')}<div class="fgr" style="margin-top:5px"><label class="lbl">Formato</label><select><option>Normal</option><option>Telha</option><option selected>Funil</option><option>Gancho</option><option>Caracol</option></select></div></div></div>`).join('')}</div>
+<div class="sl2">Monofilamento Semmes-Weinstein (10g)</div>
+<div class="mg">${['Direito','Esquerdo'].map(pe=>`<div class="mf"><div style="font-size:11px;font-weight:600;color:var(--g500);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px">Pé ${pe}</div><div class="mp">${Array(10).fill(0).map((_,i)=>`<div class="mpt${i<3?' pos':i===6?' neg':''}">${i+1}</div>`).join('')}</div><div style="display:flex;gap:7px;margin-top:7px;font-size:10px"><span style="display:flex;align-items:center;gap:3px"><span style="width:9px;height:9px;background:var(--teal-light);border:1px solid var(--teal);border-radius:2px;display:inline-block"></span>Pos.</span><span style="display:flex;align-items:center;gap:3px"><span style="width:9px;height:9px;background:var(--coral-light);border:1px solid var(--coral);border-radius:2px;display:inline-block"></span>Neg.</span></div></div>`).join('')}</div>
+<div class="sl2">Avaliação vascular</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${['Direito','Esquerdo'].map(pe=>`<div style="background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:13px"><div style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:9px">Pé ${pe}</div><div style="display:flex;flex-direction:column;gap:8px"><div class="fgr"><label class="lbl">Coloração</label><select><option>Normal</option><option>Cianose</option><option>Eritema</option></select></div><div class="fgr"><label class="lbl">Temperatura</label><select><option>Normal</option><option>Fria</option><option>Quente</option></select></div><div class="fgr"><label class="lbl">Pulso dorsal</label><select><option>Normal</option><option>Fraco</option><option>Ausente</option></select></div></div></div>`).join('')}</div>
+<div style="display:flex;justify-content:flex-end;gap:9px;margin-top:18px;padding-top:14px;border-top:1px solid var(--g200)"><button class="btn bs" onclick="sTab(0)">← Anamnese</button><button class="btn bp" onclick="sTab(2)">Próximo: Atendimentos →</button></div>
+</div>`,
+`<div class="card"><div class="ch"><div><div class="ct2">Histórico de atendimentos</div><div class="cs">Maria Aparecida Silva · PRO-000142</div></div><button class="btn bt bsm" onclick="nav('atd')">${I.pls} Novo atendimento</button></div>
+${[{d:'12/04/2026',dg:'Onicocriptose grau I bilateral',c:'Desbridamento e curativo oclusivo.',e:'Melhora da dor. Edema reduzido. Orientada sobre higiene e calçado.',p:'Dra. Carla Mendes'},{d:'20/03/2026',dg:'Onicocriptose grau II hálux D',c:'Antisséptico. Curativo oclusivo.',e:'Dor intensa. Unhas com bordas cortantes. Pele íntegra.',p:'Dra. Carla Mendes'},{d:'05/01/2026',dg:'Avaliação inicial — Hiperqueratose plantar',c:'Limpeza e hidratação. Orientações gerais.',e:'Diabética tipo II. Pele ressecada. Sensibilidade preservada.',p:'Dra. Fernanda Lima'}].map(e=>`<div class="ec"><div style="font-size:11px;color:var(--g500);margin-bottom:6px;display:flex;align-items:center;gap:5px">${I.clk}${e.d} · <span style="color:var(--brand);font-weight:500">${e.dg}</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0"><div><div style="font-size:10px;font-weight:600;color:var(--g500);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">Conduta</div><div style="font-size:12px;color:var(--g700)">${e.c}</div></div><div><div style="font-size:10px;font-weight:600;color:var(--g500);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">Evolução</div><div style="font-size:12px;color:var(--g700)">${e.e}</div></div></div><div style="font-size:11px;color:var(--brand);font-weight:500;margin-top:4px">${e.p}</div></div>`).join('')}
+</div>`
+];
+document.addEventListener('change',e=>{if(e.target.type==='checkbox'&&e.target.closest('.cki')){e.target.closest('.cki').classList.toggle('ck',e.target.checked);}});
+</script>
+</body>
+</html>
