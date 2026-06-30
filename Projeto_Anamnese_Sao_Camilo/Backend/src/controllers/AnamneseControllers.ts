@@ -1,8 +1,8 @@
-import type { Request, Response } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import Anamnese, { CreateAnamneseInput, UpdateAnamneseInput } from '../models/AnamneseModels';
 
 interface AnamneseBody {
-  prontuario_id?: string;
+  prontuario_id: string;
   tipo_diabete?: string | null;
   tempo_diabetes?: string | null;
   hemoglobina_glicada?: number | null;
@@ -30,34 +30,13 @@ interface BuscarAnamneseQuery {
   prontuario_id?: string;
 }
 
-function isDuplicateEntryError(error: unknown): boolean {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'code' in error &&
-    error.code === 'ER_DUP_ENTRY'
-  );
-}
-
-function isForeignKeyError(error: unknown): boolean {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'code' in error &&
-    (error.code === 'ER_NO_REFERENCED_ROW_2' || error.code === 'ER_ROW_IS_REFERENCED_2')
-  );
-}
-
 export async function cadastrarAnamnese(
   req: Request<unknown, unknown, AnamneseBody>,
   res: Response,
+  next: NextFunction
 ) {
   try {
     const { prontuario_id } = req.body;
-
-    if (!prontuario_id) {
-      return res.status(400).json({ message: 'Prontuario e obrigatorio.' });
-    }
 
     const dadosAnamnese: CreateAnamneseInput = {
       prontuario_id,
@@ -87,22 +66,14 @@ export async function cadastrarAnamnese(
       anamnese,
     });
   } catch (error) {
-    if (isDuplicateEntryError(error)) {
-      return res.status(409).json({ message: 'Este prontuario ja possui anamnese cadastrada.' });
-    }
-
-    if (isForeignKeyError(error)) {
-      return res.status(400).json({ message: 'Prontuario nao encontrado.' });
-    }
-
-    console.error('Erro ao cadastrar anamnese:', error);
-    return res.status(500).json({ message: 'Erro ao cadastrar anamnese.' });
+    next(error);
   }
 }
 
 export async function buscarAnamneses(
   req: Request<unknown, unknown, unknown, BuscarAnamneseQuery>,
   res: Response,
+  next: NextFunction
 ) {
   try {
     const { prontuario_id } = req.query;
@@ -121,14 +92,14 @@ export async function buscarAnamneses(
 
     return res.status(200).json({ anamneses });
   } catch (error) {
-    console.error('Erro ao buscar anamneses:', error);
-    return res.status(500).json({ message: 'Erro ao buscar anamneses.' });
+    next(error);
   }
 }
 
 export async function buscarAnamnesePorId(
   req: Request<AnamneseParams>,
   res: Response,
+  next: NextFunction
 ) {
   try {
     const { id } = req.params;
@@ -145,14 +116,14 @@ export async function buscarAnamnesePorId(
 
     return res.status(200).json({ anamnese });
   } catch (error) {
-    console.error('Erro ao buscar anamnese:', error);
-    return res.status(500).json({ message: 'Erro ao buscar anamnese.' });
+    next(error);
   }
 }
 
 export async function atualizarAnamnese(
-  req: Request<AnamneseParams, unknown, AnamneseBody>,
+  req: Request<AnamneseParams, unknown, Partial<AnamneseBody>>,
   res: Response,
+  next: NextFunction
 ) {
   try {
     const { id } = req.params;
@@ -242,14 +213,14 @@ export async function atualizarAnamnese(
       anamnese,
     });
   } catch (error) {
-    console.error('Erro ao atualizar anamnese:', error);
-    return res.status(500).json({ message: 'Erro ao atualizar anamnese.' });
+    next(error);
   }
 }
 
 export async function deletarAnamnese(
   req: Request<AnamneseParams>,
   res: Response,
+  next: NextFunction
 ) {
   try {
     const { id } = req.params;
@@ -266,13 +237,6 @@ export async function deletarAnamnese(
 
     return res.status(200).json({ message: 'Anamnese deletada com sucesso.' });
   } catch (error) {
-    if (isForeignKeyError(error)) {
-      return res.status(409).json({
-        message: 'Anamnese possui avaliacoes vinculadas e nao pode ser deletada.',
-      });
-    }
-
-    console.error('Erro ao deletar anamnese:', error);
-    return res.status(500).json({ message: 'Erro ao deletar anamnese.' });
+    next(error);
   }
 }

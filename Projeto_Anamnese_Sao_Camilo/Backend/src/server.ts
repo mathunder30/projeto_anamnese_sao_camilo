@@ -7,6 +7,7 @@ import enderecoRoutes from "./routes/EnderecoRoutes";
 import avaliacaoClinicaRoutes from "./routes/AvaliacaoClinicaRoutes";
 import prontuarioRoutes from "./routes/ProntuarioRoutes";
 import atendimentoRoutes from "./routes/AtendimentoRoutes";
+import { ErrorHandler } from "./middlewares/ErrorHandler";
 
 const app = express();
 
@@ -23,6 +24,9 @@ app.use("/atendimentos", atendimentoRoutes);
 app.get("/", (req, res) => {
   res.send("API Prontuário Rodando 🚀");
 });
+
+// Registrar o tratador global de erros
+app.use(ErrorHandler);
 
 app.listen(3000, () => {
   console.log("Servidor rodando na porta 3000");

@@ -6,7 +6,7 @@ type DbValue = string | boolean | Date | null;
 
 const dermatologicoColumns = [
   'id',
-  'anamneses_id',
+  'anamnese_id',
   'micose',
   'ressecamento',
   'maceracao',
@@ -77,7 +77,7 @@ const deformidadeColumns = [
 
 export interface IExameDermatologico {
   id: string;
-  anamneses_id: string;
+  anamnese_id: string;
   micose: boolean;
   ressecamento: boolean;
   maceracao: boolean;
@@ -148,7 +148,7 @@ export interface IDeformidade {
 
 export type CreateExameDermatologicoInput = Omit<IExameDermatologico, 'id' | 'criado_em' | 'atualizado_em'> &
   Partial<Pick<IExameDermatologico, 'id'>>;
-export type UpdateExameDermatologicoInput = Partial<Omit<IExameDermatologico, 'id' | 'anamneses_id' | 'criado_em' | 'atualizado_em'>>;
+export type UpdateExameDermatologicoInput = Partial<Omit<IExameDermatologico, 'id' | 'anamnese_id' | 'criado_em' | 'atualizado_em'>>;
 
 export type CreateAvaliacaoUnguealInput = Omit<IAvaliacaoUngueal, 'id' | 'criado_em' | 'atualizado_em'> &
   Partial<Pick<IAvaliacaoUngueal, 'id'>>;
@@ -186,13 +186,13 @@ export class ExameDermatologico {
 
     const [result] = await promisePool.execute<ResultSetHeader>(
       `INSERT INTO exames_dermatologicos(
-        id, anamneses_id, micose, ressecamento, maceracao, disidrose,
+        id, anamnese_id, micose, ressecamento, maceracao, disidrose,
         hiperpigmentacao, bromidrose, hiperhidrose, hiperqueratose,
         fissuras, calos, verruga, ulceracao, outros, criado_em, atualizado_em
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         id,
-        exame.anamneses_id,
+        exame.anamnese_id,
         exame.micose,
         exame.ressecamento,
         exame.maceracao,
@@ -237,7 +237,7 @@ export class ExameDermatologico {
 
   static async buscarPorAnamnese(anamneseId: string): Promise<IExameDermatologico | null> {
     const [rows] = await promisePool.execute<ExameDermatologicoRow[]>(
-      `SELECT ${dermatologicoColumns} FROM exames_dermatologicos WHERE anamneses_id = ? LIMIT 1`,
+      `SELECT ${dermatologicoColumns} FROM exames_dermatologicos WHERE anamnese_id = ? LIMIT 1`,
       [anamneseId],
     );
 

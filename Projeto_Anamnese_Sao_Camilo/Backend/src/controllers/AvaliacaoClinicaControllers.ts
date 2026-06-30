@@ -20,12 +20,9 @@ interface AvaliacaoParams {
 
 interface AvaliacaoQuery {
   anamnese_id?: string;
-  anamneses_id?: string;
 }
 
-interface DermatologicoBody extends Partial<CreateExameDermatologicoInput> {
-  anamnese_id?: string;
-}
+type DermatologicoBody = Partial<CreateExameDermatologicoInput>;
 
 type UnguealBody = Partial<CreateAvaliacaoUnguealInput>;
 type VascularBody = Partial<CreateAvaliacaoVascularInput>;
@@ -61,7 +58,7 @@ function getIdParam(req: Request<AvaliacaoParams>, res: Response): string | null
 }
 
 function getAnamneseId(query: AvaliacaoQuery): string | undefined {
-  return query.anamnese_id ?? query.anamneses_id;
+  return query.anamnese_id;
 }
 
 function handleCreateError(error: unknown, res: Response, entityName: string) {
@@ -82,14 +79,14 @@ export async function cadastrarExameDermatologico(
   res: Response,
 ) {
   try {
-    const anamneses_id = req.body.anamneses_id ?? req.body.anamnese_id;
+    const { anamnese_id } = req.body;
 
-    if (!anamneses_id) {
+    if (!anamnese_id) {
       return res.status(400).json({ message: 'Anamnese e obrigatoria.' });
     }
 
     const exame: CreateExameDermatologicoInput = {
-      anamneses_id,
+      anamnese_id,
       micose: req.body.micose ?? false,
       ressecamento: req.body.ressecamento ?? false,
       maceracao: req.body.maceracao ?? false,

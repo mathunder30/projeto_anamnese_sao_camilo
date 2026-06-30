@@ -97,7 +97,7 @@ foreign key (prontuario_id) references prontuarios(id)
 -- Avaliação Clínicas
 create table exames_dermatologicos(
 id char(36) primary key not null,
-anamneses_id char(36) not null unique,
+anamnese_id char(36) not null unique,
 micose tinyint(1) not null default 0,
 ressecamento tinyint(1) not null default 0,
 maceracao tinyint(1) not null default 0,
@@ -116,7 +116,7 @@ criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
 
-foreign key (anamneses_id) references anamneses(id)
+foreign key (anamnese_id) references anamneses(id)
 
 );
 

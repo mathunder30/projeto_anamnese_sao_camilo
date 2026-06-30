@@ -1,22 +1,20 @@
-import type { Request, Response } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import Paciente, {
   CreatePacienteInput,
   SexoPaciente,
   UpdatePacienteInput,
 } from '../models/PacienteModels';
 
-const sexosValidos: SexoPaciente[] = ['masculino', 'feminino', 'outro'];
-
 interface PacienteBody {
   num_prontuario?: string;
-  nome?: string;
-  data_nascimento?: string;
+  nome: string;
+  data_nascimento: string;
   cpf?: string | null;
-  sexo?: SexoPaciente;
+  sexo: SexoPaciente;
   rg?: string | null;
   email?: string | null;
   telefone?: string | null;
-  celular?: string;
+  celular: string;
   profissao?: string | null;
   indicacao?: string | null;
 }
@@ -31,18 +29,10 @@ interface BuscarPacientesQuery {
   prontuario?: string;
 }
 
-function isDuplicateEntryError(error: unknown): boolean {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'code' in error &&
-    error.code === 'ER_DUP_ENTRY'
-  );
-}
-
 export async function cadastrarPaciente(
   req: Request<unknown, unknown, PacienteBody>,
   res: Response,
+  next: NextFunction
 ) {
   try {
     const {
@@ -58,21 +48,7 @@ export async function cadastrarPaciente(
       indicacao,
     } = req.body;
 
-    if (!nome || !data_nascimento || !sexo || !celular) {
-      return res.status(400).json({
-        message: 'Nome, data de nascimento, sexo e celular sao obrigatorios.',
-      });
-    }
-
-    if (!sexosValidos.includes(sexo)) {
-      return res.status(400).json({ message: 'Sexo invalido.' });
-    }
-
     const dataNascimento = new Date(data_nascimento);
-
-    if (Number.isNaN(dataNascimento.getTime())) {
-      return res.status(400).json({ message: 'Data de nascimento invalida.' });
-    }
 
     const dadosPaciente: CreatePacienteInput = {
       nome,
@@ -94,18 +70,14 @@ export async function cadastrarPaciente(
       paciente,
     });
   } catch (error) {
-    if (isDuplicateEntryError(error)) {
-      return res.status(409).json({ message: 'CPF ja cadastrado.' });
-    }
-
-    console.error('Erro ao cadastrar paciente:', error);
-    return res.status(500).json({ message: 'Erro ao cadastrar paciente.' });
+    next(error);
   }
 }
 
 export async function buscarPacientes(
   req: Request<unknown, unknown, unknown, BuscarPacientesQuery>,
   res: Response,
+  next: NextFunction
 ) {
   try {
     const { nome, cpf, prontuario } = req.query;
@@ -140,14 +112,14 @@ export async function buscarPacientes(
 
     return res.status(200).json({ pacientes });
   } catch (error) {
-    console.error('Erro ao buscar pacientes:', error);
-    return res.status(500).json({ message: 'Erro ao buscar pacientes.' });
+    next(error);
   }
 }
 
 export async function buscarPacientePorId(
   req: Request<PacienteParams>,
   res: Response,
+  next: NextFunction
 ) {
   try {
     const { id } = req.params;
@@ -164,14 +136,14 @@ export async function buscarPacientePorId(
 
     return res.status(200).json({ paciente });
   } catch (error) {
-    console.error('Erro ao buscar paciente:', error);
-    return res.status(500).json({ message: 'Erro ao buscar paciente.' });
+    next(error);
   }
 }
 
 export async function atualizarPaciente(
-  req: Request<PacienteParams, unknown, PacienteBody>,
+  req: Request<PacienteParams, unknown, Partial<PacienteBody>>,
   res: Response,
+  next: NextFunction
 ) {
   try {
     const { id } = req.params;
@@ -191,13 +163,7 @@ export async function atualizarPaciente(
     }
 
     if (req.body.data_nascimento !== undefined) {
-      const dataNascimento = new Date(req.body.data_nascimento);
-
-      if (Number.isNaN(dataNascimento.getTime())) {
-        return res.status(400).json({ message: 'Data de nascimento invalida.' });
-      }
-
-      updateData.data_nascimento = dataNascimento;
+      updateData.data_nascimento = new Date(req.body.data_nascimento);
     }
 
     if (req.body.cpf !== undefined) {
@@ -205,10 +171,6 @@ export async function atualizarPaciente(
     }
 
     if (req.body.sexo !== undefined) {
-      if (!sexosValidos.includes(req.body.sexo)) {
-        return res.status(400).json({ message: 'Sexo invalido.' });
-      }
-
       updateData.sexo = req.body.sexo;
     }
 
@@ -247,18 +209,14 @@ export async function atualizarPaciente(
       paciente,
     });
   } catch (error) {
-    if (isDuplicateEntryError(error)) {
-      return res.status(409).json({ message: 'Prontuario ou CPF ja cadastrado.' });
-    }
-
-    console.error('Erro ao atualizar paciente:', error);
-    return res.status(500).json({ message: 'Erro ao atualizar paciente.' });
+    next(error);
   }
 }
 
 export async function deletarPaciente(
   req: Request<PacienteParams>,
   res: Response,
+  next: NextFunction
 ) {
   try {
     const { id } = req.params;
@@ -275,7 +233,6 @@ export async function deletarPaciente(
 
     return res.status(200).json({ message: 'Paciente deletado com sucesso.' });
   } catch (error) {
-    console.error('Erro ao deletar paciente:', error);
-    return res.status(500).json({ message: 'Erro ao deletar paciente.' });
+    next(error);
   }
 }

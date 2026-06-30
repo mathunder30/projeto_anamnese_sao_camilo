@@ -1,4 +1,4 @@
-import { Response, Request } from 'express';
+import { Response, Request, NextFunction } from 'express';
 import User, { UserPerfil } from '../models/UserModels';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -6,31 +6,25 @@ import { getRequiredEnv } from '../config/env';
 
 const jwtSecret = getRequiredEnv('JWT_SECRET');
 
-const validPerfis: UserPerfil[] = ['recepcionista', 'podologo', 'administracao'];
-
 interface RegisterBody {
-  nome?: string;
-  email?: string;
-  senha?: string;
-  perfil?: UserPerfil;
+  nome: string;
+  email: string;
+  senha: string;
+  perfil: UserPerfil;
 }
 
 interface LoginBody {
-  email?: string;
-  senha?: string;
+  email: string;
+  senha: string;
 }
 
-export async function registerUser(req: Request<unknown, unknown, RegisterBody>, res: Response) {
+export async function registerUser(
+  req: Request<unknown, unknown, RegisterBody>,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const { nome, email, senha, perfil } = req.body;
-
-    if (!nome || !email || !senha || !perfil) {
-      return res.status(400).json({ message: 'Nome, email, senha e perfil sao obrigatorios.' });
-    }
-
-    if (!validPerfis.includes(perfil)) {
-      return res.status(400).json({ message: 'Perfil invalido.' });
-    }
 
     const existingUser = await User.findByEmail(email);
 
@@ -70,18 +64,17 @@ export async function registerUser(req: Request<unknown, unknown, RegisterBody>,
       },
     });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Erro ao cadastrar usuario.' });
+    next(error);
   }
 }
 
-export async function loginUser(req: Request<unknown, unknown, LoginBody>, res: Response) {
+export async function loginUser(
+  req: Request<unknown, unknown, LoginBody>,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const { email, senha } = req.body;
-
-    if (!email || !senha) {
-      return res.status(400).json({ message: 'Email e senha sao obrigatorios.' });
-    }
 
     const user = await User.findByEmail(email);
 
@@ -109,7 +102,6 @@ export async function loginUser(req: Request<unknown, unknown, LoginBody>, res: 
 
     return res.status(200).json({ user: userSemSenha, token });
   } catch (error) {
-    console.error('Erro ao fazer login:', error);
-    return res.status(500).json({ message: 'Erro interno do servidor.' });
+    next(error);
   }
 }
